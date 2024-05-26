@@ -135,10 +135,6 @@ D3D12_SHADER_BYTECODE CShader::CompileShaderFromFile( const WCHAR* pszFileName, 
 // 그래픽스 파이프라인 상태 객체를 생성한다.
 void CShader::CreateShader( ID3D12Device* pd3dDevice, ID3D12RootSignature* pd3dRootSignature )
 {
-	//// 그래픽스 파이프라인 상태 객체 배열을 생성한다.
-	//m_nPipelineStates = 1;
-	//m_ppd3dPipelineStates = new ID3D12PipelineState * [m_nPipelineStates];
-
 	ID3DBlob* pd3dVertexShaderBlob = NULL, * pd3dPixelShaderBlob = NULL;
 
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC d3dPipelineStateDesc;
@@ -167,48 +163,6 @@ void CShader::CreateShader( ID3D12Device* pd3dDevice, ID3D12RootSignature* pd3dR
 	if ( d3dPipelineStateDesc.InputLayout.pInputElementDescs ) 
 		delete[] d3dPipelineStateDesc.InputLayout.pInputElementDescs;
 }
-
-//void CShader::ReleaseUploadBuffers()
-//{
-//	if ( m_ppObjects )
-//	{
-//		for ( int j = 0; j < m_nObjects; j++ )
-//			if ( m_ppObjects[j] )
-//				m_ppObjects[j]->ReleaseUploadBuffers();
-//	}
-//}
-
-// 셰이더 객체가 포함하는 게임 객체들을 생성한다.
-//void CShader::BuildObjects( ID3D12Device* pd3dDevice, ID3D12GraphicsCommandList* pd3dCommandList, void* pContext )
-//{
-//	CTriangleMesh* pTriangleMesh = new CTriangleMesh( pd3dDevice, pd3dCommandList );
-//
-//	m_nObjects = 1;
-//	m_ppObjects = new CGameObject * [m_nObjects];
-//
-//	m_ppObjects[0] = new CGameObject();
-//	m_ppObjects[0]->SetMesh( pTriangleMesh );
-//}
-//
-//void CShader::AnimateObjects( float fTimeElapsed )
-//{
-//	for ( int j = 0; j < m_nObjects; j++ )
-//	{
-//		m_ppObjects[j]->Animate( fTimeElapsed );
-//	}
-//}
-//
-//void CShader::ReleaseObjects()
-//{
-//	if ( m_ppObjects )
-//	{
-//		for ( int j = 0; j < m_nObjects; j++ )
-//			if ( m_ppObjects[j] )
-//				delete m_ppObjects[j];
-//
-//		delete[] m_ppObjects;
-//	}
-//}
 
 void CShader::OnPrepareRender( ID3D12GraphicsCommandList* pd3dCommandList )
 {
@@ -297,9 +251,9 @@ void CObjectsShader::BuildObjects( ID3D12Device* pd3dDevice, ID3D12GraphicsComma
 	CCubeMeshDiffused* pCubeMesh = new CCubeMeshDiffused( pd3dDevice, pd3dCommandList, 12.0f, 12.0f, 12.0f );
 
 	/* x-축, y-축, z-축 양의 방향의 객체 개수이다. 각 값을 1씩 늘리거나 줄이면서 실행할 때 프레임 레이트가 어떻게 변하는 가를 살펴보자. */
-	int xObjects = 10;
-	int yObjects = 10;
-	int zObjects = 10;
+	int xObjects = 1;
+	int yObjects = 1;
+	int zObjects = 1;
 	int i = 0;
 
 	// x-축, y-축, z-축으로 21개씩 총 21 x 21 x 21 = 9261개의 정육면체를 생성하고 배치한다.
@@ -328,6 +282,8 @@ void CObjectsShader::BuildObjects( ID3D12Device* pd3dDevice, ID3D12GraphicsComma
 			}
 		}
 	}
+
+	// 벽 오브젝트를 생성해보자
 
 	CreateShaderVariables( pd3dDevice, pd3dCommandList );
 }

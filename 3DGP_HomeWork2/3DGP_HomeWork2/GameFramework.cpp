@@ -356,12 +356,12 @@ void CGameFramework::ProcessInput()
 	'Page Up'과 'Page Down' 키를 누르면 플레이어를 위/아래(로컬 y-축)로 이동한다.*/
 	if ( ::GetKeyboardState( pKeyBuffer ) )
 	{
-		if ( pKeyBuffer[VK_UP] & 0xF0 ) dwDirection |= DIR_FORWARD;
-		if ( pKeyBuffer[VK_DOWN] & 0xF0 ) dwDirection |= DIR_BACKWARD;
-		if ( pKeyBuffer[VK_LEFT] & 0xF0 ) dwDirection |= DIR_LEFT;
-		if ( pKeyBuffer[VK_RIGHT] & 0xF0 ) dwDirection |= DIR_RIGHT;
-		if ( pKeyBuffer[VK_PRIOR] & 0xF0 ) dwDirection |= DIR_UP;
-		if ( pKeyBuffer[VK_NEXT] & 0xF0 ) dwDirection |= DIR_DOWN;
+		if ( pKeyBuffer['W'] & 0xF0 ) dwDirection |= DIR_FORWARD;
+		if ( pKeyBuffer['S'] & 0xF0 ) dwDirection |= DIR_BACKWARD;
+		if ( pKeyBuffer['A'] & 0xF0 ) dwDirection |= DIR_LEFT;
+		if ( pKeyBuffer['D'] & 0xF0 ) dwDirection |= DIR_RIGHT;
+		if ( pKeyBuffer[VK_SPACE] & 0xF0 ) dwDirection |= DIR_UP;
+		if ( pKeyBuffer[VK_LCONTROL] & 0xF0 ) dwDirection |= DIR_DOWN;
 	}
 	float cxDelta = 0.0f, cyDelta = 0.0f;
 	POINT ptCursorPos;
@@ -394,7 +394,7 @@ void CGameFramework::ProcessInput()
 		/*플레이를 dwDirection 방향으로 이동한다(실제로는 속도 벡터를 변경한다). 이동 거리는 시간에 비례하도록 한다.
 		플레이어의 이동 속력은 (50/초)로 가정한다.*/
 		if ( dwDirection )
-			m_pPlayer->Move( dwDirection, 50.0f * m_GameTimer.GetTimeElapsed(), true );
+			m_pPlayer->Move( dwDirection, 250.0f * m_GameTimer.GetTimeElapsed(), true );
 	}
 
 	// 플레이어를 실제로 이동하고 카메라를 갱신한다. 중력과 마찰력의 영향을 속도 벡터에 적용한다.
@@ -484,19 +484,6 @@ void CGameFramework::WaitForGpuComplete()
 		hResult = m_pd3dFence->SetEventOnCompletion(nFenceValue, m_hFenceEvent);
 		::WaitForSingleObject(m_hFenceEvent, INFINITE);
 	}
-
-	// const UINT64 nFence = m_nFenceValue;
-	/*
-	HRESULT hResult = m_pd3dCommandQueue->Signal(m_pd3dFence, nFence);
-	//GPU가 펜스의 값을 설정하는 명령을 명령 큐에 추가한다. 
-
-	if (m_pd3dFence->GetCompletedValue() < nFence)
-	{
-		//펜스의 현재 값이 설정한 값보다 작으면 펜스의 현재 값이 설정한 값이 될 때까지 기다린다. 
-		hResult = m_pd3dFence->SetEventOnCompletion(nFence, m_hFenceEvent);
-		::WaitForSingleObject(m_hFenceEvent, INFINITE);
-	}
-	*/
 }
 
 void CGameFramework::OnProcessingMouseMessage(HWND hWnd, UINT nMessageID, WPARAM wParam, LPARAM lParam)

@@ -384,7 +384,7 @@ CCamera* CAirplanePlayer::ChangeCamera( DWORD nNewCameraMode, float fTimeElapsed
         break;
     case THIRD_PERSON_CAMERA:
         // 플레이어의 특성을 3인칭 카메라 모드에 맞게 변경한다. 지연 효과와 카메라 오프셋을 설정한다.
-        SetFriction( 250.0f );
+        SetFriction( 125.0f );
         SetGravity( XMFLOAT3( 0.0f, 0.0f, 0.0f ) );
         SetMaxVelocityXZ( 125.0f );
         SetMaxVelocityY( 400.0f );

@@ -53,15 +53,6 @@ public:
 protected:
 	ID3D12PipelineState** m_ppd3dPipelineStates = NULL;
 	int m_nPipelineStates = 0;
-
-//protected:
-//	// 셰이더가 포함하는 게임 객체들의 리스트(배열)이다.
-//	CGameObject**	m_ppObjects = NULL;
-//	int				m_nObjects = 0;
-//
-//	// 파이프라인 상태 객체들의 리스트(배열)이다.
-//	ID3D12PipelineState**	m_ppd3dPipelineStates = NULL;
-//	int						m_nPipelineStates = 0;
 };
 
 class CPlayerShader : public CShader
